@@ -19,6 +19,9 @@ usage/
 
 ## Setup
 
+Use Python 3.10 through 3.13. The current `enigma-encryption` release contains
+native wheels for those Python versions and does not support Python 3.14.
+
 From this folder:
 
 ```powershell
@@ -38,6 +41,13 @@ streamlit run streamlit_app.py
 ```
 
 The app allows uploads up to 1024 MB through `usage/.streamlit/config.toml`.
+
+## Streamlit Community Cloud
+
+Deploy the app with Python 3.13. In Streamlit Community Cloud, choose Python
+3.13 from **Advanced settings** while creating the app. Python cannot be changed
+for an existing deployment, so delete and redeploy an app that currently uses
+Python 3.14.
 
 ## Python Usage
 

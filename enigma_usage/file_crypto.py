@@ -4,7 +4,9 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 import importlib
+import importlib.util
 from pathlib import Path
+import platform
 import re
 import tempfile
 
@@ -91,13 +93,19 @@ def _safe_file_name(file_name: str) -> str:
 
 
 def _load_enigma():
-    try:
-        return importlib.import_module("enigma")
-    except ImportError as exc:
+    if importlib.util.find_spec("enigma") is None:
         raise RuntimeError(
             "The enigma-encryption package is not installed. Run "
-            "`pip install -r requirements.txt`, or `pip install -e ..\\enigma` "
-            "from this usage folder for local development."
+            "`pip install -r requirements.txt`."
+        )
+
+    try:
+        return importlib.import_module("enigma")
+    except (ImportError, OSError) as exc:
+        raise RuntimeError(
+            "enigma-encryption is installed, but its compiled extension could "
+            f"not load on Python {platform.python_version()}. Use Python 3.10 "
+            f"through 3.13. Original import error: {exc}"
         ) from exc
 
 
